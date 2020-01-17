@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DatingApp.API.Dtos
 {
@@ -11,7 +7,7 @@ namespace DatingApp.API.Dtos
         [Required]
         public string Username { get; set; }
         [Required]
-        [StringLength(8,MinimumLength =4,ErrorMessage ="Password need to be between 4 and 8 character")]
+        [StringLength(8, MinimumLength = 4, ErrorMessage = "Password need to be between 4 and 8 character")]
         public string Password { get; set; }
     }
 }

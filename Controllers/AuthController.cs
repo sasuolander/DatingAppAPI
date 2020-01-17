@@ -4,6 +4,7 @@ using DatingApp.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -40,25 +41,22 @@ namespace DatingApp.API.Controllers
             };
             var createdUser = await _repo.Register(userToCreate, userDTO.Password);
             return StatusCode(201);
-
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDto loginDto)
-        {
+        public async Task<IActionResult> Login(UserForLoginDto loginDto)  {
 
             var userFromRepo = await _repo.Login(loginDto.Username.ToLower(), loginDto.Password);
             if (userFromRepo == null)
             {
+                //return Ok(userFromRepo.Id);
                 return Unauthorized();
             }
 
             var claims = new[]
             {
-               new Claim(ClaimTypes.NameIdentifier,
-               userFromRepo.ToString()),
-               new Claim(ClaimTypes.Name,
-               userFromRepo.Username),
+               new Claim(ClaimTypes.NameIdentifier,userFromRepo.Id.ToString()),
+               new Claim(ClaimTypes.Name,userFromRepo.Username),
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _config.GetSection("AppSetting:Token").Value));
@@ -68,7 +66,7 @@ namespace DatingApp.API.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = System.DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds
             };
 
