@@ -7,7 +7,6 @@ namespace DatingApp.API.Data.UserSeedData
 {
     public class Seed
     {
-
         public static void SeedUsers(DataContext context)
         {
             if (!context.Users.Any())
@@ -18,7 +17,7 @@ namespace DatingApp.API.Data.UserSeedData
                 foreach (var user in users)
                 {
                     byte[] passwordHash, passwordSalt;
-                    CreatePasswordHash("password",out passwordHash ,out passwordSalt);
+                    CreatePasswordHash("password", out passwordHash, out passwordSalt);
                     user.PasswordHash = passwordHash;
                     user.PasswordSalt = passwordSalt;
                     user.Username = user.Username.ToLower();
@@ -27,13 +26,13 @@ namespace DatingApp.API.Data.UserSeedData
                 context.SaveChanges();
             }
         }
+
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-
             }
         }
     }

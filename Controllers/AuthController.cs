@@ -16,7 +16,6 @@ namespace DatingApp.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
 
@@ -24,7 +23,6 @@ namespace DatingApp.API.Controllers
         {
             _repo = repo;
             _config = config;
-
         }
 
         [HttpPost("register")]
@@ -44,8 +42,8 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDto loginDto)  {
-
+        public async Task<IActionResult> Login(UserForLoginDto loginDto)
+        {
             var userFromRepo = await _repo.Login(loginDto.Username.ToLower(), loginDto.Password);
             if (userFromRepo == null)
             {
@@ -78,6 +76,5 @@ namespace DatingApp.API.Controllers
                 token = tokenHandler.WriteToken(token)
             });
         }
-
     }
 }
