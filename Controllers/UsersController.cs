@@ -56,8 +56,6 @@ namespace DatingApp.API.Controllers
             if (await _repo.SaveAll()) { return NoContent(); }
 
             throw new Exception($"failled to update user {id}");
-
-            return Ok();
         }
     }
 }
